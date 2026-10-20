@@ -73,6 +73,7 @@ Adding a backend means writing one class with `extract()` and registering it in 
 | `items_vs_subtotal` | 3 | items sum = subtotal, or = subtotal + tax (tax-exclusive subtotal beside tax-inclusive items) |
 | `subtotal_tax_total` | 3 | subtotal + other charges (+ tax) = total, either tax reading accepted |
 | `items_vs_total` | 3 | no subtotal printed: items + other charges (+ tax) = total |
+| `date_matches_raw` | 2 | the ISO date equals the printed date re-read as day/month/year (skipped if the printed text cannot be read by the rule) |
 | `amounts_sane` | 2 | no negative total/subtotal/tax, total > 0, tax <= total |
 | `has_vendor`, `has_date`, `date_plausible`, `has_currency`, `currency_valid`, `currency_matches_symbol`, `tax_plausible` | 1 each | present and sensible (date not future and not before 2000; ISO 4217 code; printed symbol such as `RM` agrees with the code; tax between 0 and 30% of the base) |
 

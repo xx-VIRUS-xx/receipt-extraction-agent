@@ -5,6 +5,7 @@ it is never counted as a pass, and scoring caps confidence when no arithmetic ch
 """
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from datetime import date, datetime
 
@@ -27,9 +28,40 @@ SYMBOL_TO_CODE = {"RM": "MYR", "MYR": "MYR", "S$": "SGD", "SGD": "SGD", "US$": "
                   "₹": "INR", "INR": "INR", "RMB": "CNY", "CNY": "CNY", "HK$": "HKD", "HKD": "HKD", "A$": "AUD",
                   "AUD": "AUD", "NT$": "TWD", "TWD": "TWD", "₩": "KRW", "KRW": "KRW", "JPY": "JPY", "CHF": "CHF"}
 
+_MONTHS = {m: i for i, m in enumerate("jan feb mar apr may jun jul aug sep oct nov dec".split(), 1)}
+
+
+def parse_printed_date(raw: str | None) -> str | None:
+    """Read a printed date under the documented rule and return ISO YYYY-MM-DD, or None if it cannot be read confidently.
+
+    The rule (see docs/DATA_FORMAT.md): numeric dates are DAY/MONTH/YEAR; a four-digit-year-first date is year/month/day;
+    month names are unambiguous in either order; a two-digit year means 20YY. Anything else returns None, and a None
+    never causes a failure: the check that uses this only fails on a confident contradiction.
+    """
+    if not raw:
+        return None
+    t = raw.strip().lower()
+    try:
+        if (m := re.search(r"(?<!\d)(\d{4})\s*[/.\-]\s*(\d{1,2})\s*[/.\-]\s*(\d{1,2})(?!\d)", t)):
+            y, mo, d = int(m[1]), int(m[2]), int(m[3])
+        elif (m := re.search(r"(?<!\d)(\d{1,2})\s*[/.\-\s]\s*([a-z]{3})[a-z]*\.?\s*[/.\-\s,]?\s*(\d{2,4})(?!\d)", t)) and m[2] in _MONTHS:
+            d, mo, y = int(m[1]), _MONTHS[m[2]], int(m[3])
+        elif (m := re.search(r"([a-z]{3})[a-z]*\.?\s+(\d{1,2}),?\s+(\d{2,4})(?!\d)", t)) and m[1] in _MONTHS:
+            mo, d, y = _MONTHS[m[1]], int(m[2]), int(m[3])
+        elif (m := re.search(r"(?<!\d)(\d{1,2})\s*[/.\-]\s*(\d{1,2})\s*[/.\-]\s*(\d{2,4})(?!\d)", t)):
+            d, mo, y = int(m[1]), int(m[2]), int(m[3])
+        else:
+            return None
+        if y < 100:
+            y += 2000
+        return date(y, mo, d).isoformat()
+    except ValueError:
+        return None
+
+
 # Relative importance when scoring. Arithmetic and the total matter most.
 WEIGHTS = {"has_total": 3, "items_vs_subtotal": 3, "subtotal_tax_total": 3, "items_vs_total": 3, "amounts_sane": 2,
-           "has_vendor": 1, "has_date": 1, "date_plausible": 1, "has_currency": 1, "currency_valid": 1,
+           "date_matches_raw": 2, "has_vendor": 1, "has_date": 1, "date_plausible": 1, "has_currency": 1, "currency_valid": 1,
            "currency_matches_symbol": 1, "tax_plausible": 1}
 ARITHMETIC = {"items_vs_subtotal", "subtotal_tax_total", "items_vs_total"}
 
@@ -91,6 +123,16 @@ def validate(e: Extraction, today: date | None = None) -> list[Check]:
             add("date_plausible", FAIL, f"{e.date!r} is not a valid YYYY-MM-DD date")
     else:
         add("date_plausible", SKIP, "no date")
+
+    # The model converts the printed date to ISO. Re-derive it from the printed text with the documented day/month/year
+    # rule; a confident contradiction means the model swapped day and month (undetectable otherwise for ~40% of dates).
+    printed = parse_printed_date(e.date_raw)
+    if e.date and printed:
+        ok = printed == e.date
+        add("date_matches_raw", PASS if ok else FAIL,
+            "" if ok else f"printed {e.date_raw!r} reads as {printed} (day/month/year) but the model returned {e.date}")
+    else:
+        add("date_matches_raw", SKIP, "printed date missing or not readable by the rule")
 
     # --- currency ---
     if e.currency:

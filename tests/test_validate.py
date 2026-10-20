@@ -1,5 +1,7 @@
 from datetime import date
 
+import pytest
+
 from receipt_agent.schema import Extraction, LineItem
 from receipt_agent.validate import FAIL, PASS, SKIP, validate
 
@@ -125,3 +127,41 @@ def test_self_contradicting_receipt_is_accepted_under_either_reading():
     # Real sample (Secure Parking): says "Rate incl. 6% GST" yet fee 0.94 + GST 0.06 = 1.00.
     e = ex(line_items=[0.94], tax=0.06, total=1.00, prices_include_tax=True)
     assert status(validate(e, TODAY), "items_vs_total") == PASS
+
+
+# ---- documented date rule: numeric dates are DAY/MONTH/YEAR, output is ISO ----
+from receipt_agent.validate import parse_printed_date  # noqa: E402
+
+
+@pytest.mark.parametrize("raw,iso", [
+    ("01/02/2018", "2018-02-01"),            # ambiguous on paper; the rule says 1 February
+    ("13/03/2018 4:40:40 PM", "2018-03-13"), # day > 12 can only be day-first
+    ("20-11-17", "2017-11-20"),              # 2-digit year means 20YY
+    ("23.03.18 14:59", "2018-03-23"),        # dots as separators
+    ("22 Mar 18 12:44:00 PM", "2018-03-22"), # month names are unambiguous
+    ("07 Mar 2018 18:22", "2018-03-07"),
+    ("Mar 22, 2018", "2018-03-22"),          # month-first names still read correctly
+    ("2018-03-20", "2018-03-20"),            # year-first is year/month/day, not misread as d/m/y
+    ("2018/3/5", "2018-03-05"),
+])
+def test_printed_date_rule(raw, iso):
+    assert parse_printed_date(raw) == iso
+
+
+@pytest.mark.parametrize("raw", [None, "", "2?/04/2017", "no date here", "31/02/2018", "99/99/2018"])
+def test_unreadable_or_impossible_printed_dates_return_none(raw):
+    assert parse_printed_date(raw) is None
+
+
+def test_date_matches_raw_catches_a_day_month_swap():
+    # 01/02/2018 must be 1 February; a model that returns 2 January has swapped day and month.
+    swapped = ex(date="2018-01-02", date_raw="01/02/2018", total=1.0)
+    assert status(validate(swapped, TODAY), "date_matches_raw") == FAIL
+    correct = ex(date="2018-02-01", date_raw="01/02/2018", total=1.0)
+    assert status(validate(correct, TODAY), "date_matches_raw") == PASS
+
+
+def test_date_matches_raw_is_skipped_not_failed_when_it_cannot_tell():
+    assert status(validate(ex(date="2018-02-01", date_raw=None, total=1.0), TODAY), "date_matches_raw") == SKIP
+    assert status(validate(ex(date="2017-04-26", date_raw="2?/04/2017", total=1.0), TODAY), "date_matches_raw") == SKIP
+    assert status(validate(ex(date=None, date_raw="01/02/2018", total=1.0), TODAY), "date_matches_raw") == SKIP

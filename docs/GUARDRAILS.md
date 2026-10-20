@@ -21,6 +21,7 @@ Evidence labels used below: **live** = observed in the real runs (451 model call
 | 8 | Runaway spend or a dead backend | `--max-cost` counts only money spent now (cache replays count 0); circuit breaker after N consecutive failures; remaining rows are `SKIPPED` with a reason | `guardrails.Guard` | unit; the skip path was also hit by accident during development and behaved correctly |
 | 9 | The same receipt counted twice | byte-identical duplicates are flagged `REVIEW`, not dropped | `guardrails.find_duplicates` | live: the two Lightroom credit notes are byte-identical (md5 match) |
 | 10 | One agreeing-but-wrong reading marked OK | an OK row needs two independent passes that agree, passing arithmetic, and confidence >= 0.85; single-pass rows can never be OK | `score.py` | live: see decision 4 below |
+| 11 | Day and month silently swapped on an ambiguous date (15 of 45 sample receipts print one) | `date_matches_raw` re-derives the date from the printed text with the day/month/year rule and fails on a contradiction | `validate.parse_printed_date`, `validate.validate` | live: 442 of 443 extractions exact, 1 correct abstention, 0 contradictions (never fired on real data); unit tests include the swap |
 
 ## Decisions and the reasoning behind them
 
@@ -60,6 +61,9 @@ Evidence labels used below: **live** = observed in the real runs (451 model call
   injections were not tried, and the regex is English-only.
 - **The CSV formula control is covered by a unit test, not by a real run.** In the stress case no model copied the formula
   text into the vendor field, so the sanitiser never had anything to neutralise.
+- **The date check enforces the stated rule, not reality.** `date_matches_raw` catches a model that contradicts the
+  day/month/year rule. A genuinely month-first receipt (for example US) would be read consistently under the rule and pass.
+  See [DATA_FORMAT.md](DATA_FORMAT.md#what-this-does-not-cover).
 - **Grounding needs a transcript.** Single-pass configurations have none, so check 4 does not apply to them (their rows are
   never OK anyway).
 - **Privacy.** Receipt images are sent to the model provider, and they can contain names, phone numbers and partial card

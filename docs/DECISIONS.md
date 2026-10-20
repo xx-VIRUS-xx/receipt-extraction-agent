@@ -7,7 +7,8 @@ it. "Assumed" means I decided it without testing and you should not treat it as 
 **Read this first: what the data can and cannot show.**
 - 45 real receipts, all Malaysian GST receipts (RM, 6%), judged against labels I produced by reading the images.
   I am a Claude model, the same family as the systems being scored, so agreement may be inflated. The labels are
-  arithmetically self-consistent (checked in code), but a human has not audited them.
+  arithmetically self-consistent (checked in code), and the repository owner audited a random sample (size not recorded)
+  and found no errors. The rest were not individually reviewed by a human.
 - 0 wrong rows out of 45 does **not** mean 0% error. The 95% upper bound on the true error rate is about **6.4%**.
 - The 4 fixes between v1 and v2 were made after seeing errors on these same receipts. v1 is the honest out-of-the-box
   number; v2 is optimistic (§0).
@@ -123,11 +124,14 @@ Stress set: 7 synthetic cases made from one real receipt, run on 4 configuration
 - Single-country data: other currencies, languages, multi-page invoices, and handwritten receipts are untested. The prompt
   handles any language, but I have no accuracy number. The `$` receipts (5 of them, all Malaysian) were read as MYR by
   Sonnet; whether it would mislabel a real US receipt is unmeasured.
-- DD/MM date assumption is correct for these receipts and unverified elsewhere.
+- Dates are read day/month/year and written ISO. That is right for these receipts (22 of 38 numeric dates can only be
+  day-first, none can only be month-first) and unverified elsewhere. 15 of 45 receipts are ambiguous on paper, so the rule
+  is load-bearing; a code check (`date_matches_raw`) enforces it against the printed text. Month-first locales are
+  unsupported. See [DATA_FORMAT.md](DATA_FORMAT.md).
 - No OCR baseline (Q2); no repeat-run stability measurement (calls are cached, so reruns are identical by construction).
 - Cost is Claude Code list price, not API pricing. Ollama/SGLang code paths are tested against a fake server only; there
   is no local vision model on this machine.
-- Next: human audit of labels; a second source of receipts; one different-model Pass B in production; track the silent
+- Next: audit the remaining labels (a random sample has been checked, with no errors found); a second source of receipts; one different-model Pass B in production; track the silent
   error rate on a sampled subset forever, since that is the number that can drift.
 
 ### Q11. Why not a multi-agent design?
@@ -150,6 +154,7 @@ choosing a different model for Pass B, not by agent orchestration.
 | Confidence = heuristic blend with caps | learned model | AUROC in §2 | measured, not tuned |
 | Image quality weight 0 | quality-weighted | spread 0.78-1.00 | measured (dead end) |
 | Accept either tax reading in arithmetic | trust the model's `prices_include_tax` flag | Secure Parking receipt | measured, post-hoc fix |
+| Numeric dates read day/month/year, ISO output, enforced by `date_matches_raw` | trust the model's conversion; make it a setting | 443 extractions: 442 exact, 1 correct abstention, 0 contradictions; 22 of 38 sample dates can only be day-first | measured on Malaysian data; untested elsewhere |
 | Missing currency forces review | infer from country | Haiku: 6 receipts affected | assumed; Sonnet makes it moot |
 | Pass B transcript grounds the total | none | fired on 1 real wrong total | measured (n=1) |
 | CSV first, no review UI | small web UI | scope | assumed |

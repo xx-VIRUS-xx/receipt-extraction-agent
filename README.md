@@ -94,6 +94,18 @@ Any OpenAI-compatible server works. Mixing is allowed, for example Claude for Pa
 (for example `items_vs_total: items sum 0.94 + tax 0.06 + other None vs total 1.0`). `checks_failed` and `checks_skipped`
 name the checks. `confidence` is a heuristic blend, **not** a probability: see [docs/METRICS.md](docs/METRICS.md).
 
+## Data formats (dates, amounts, currency)
+
+- **Dates are output as ISO `YYYY-MM-DD`**, and the date exactly as printed is kept in a `date_raw` column beside it.
+- **Numeric dates are read as DAY/MONTH/YEAR**: `01/02/2018` is 1 February 2018. This is a fixed assumption, not a setting.
+  It matters: 15 of the 45 sample receipts print a date that is ambiguous on paper, and 22 of the 38 numeric dates have a
+  first number above 12, which can only be day-first. A code check re-derives each date from `date_raw` and flags any
+  row where the model swapped day and month. Receipts from month-first locales (for example US) are not supported.
+- Amounts are plain numbers with a decimal point and no thousands separator, in the receipt's own currency. Currency is an
+  ISO 4217 code.
+
+Full specification, evidence and limits: [docs/DATA_FORMAT.md](docs/DATA_FORMAT.md).
+
 ## Guardrails
 
 | Threat | Control |
@@ -112,13 +124,13 @@ Decisions, evidence and residual risks: [docs/GUARDRAILS.md](docs/GUARDRAILS.md)
 
 | Layer | Choice |
 |---|---|
-| Language | Python: all 76 tests pass on 3.11, 3.12, 3.13 (GitHub Actions, Linux) and 3.14.7 (macOS, where the results were produced) |
+| Language | Python: the full test suite passes on 3.11, 3.12, 3.13 (GitHub Actions, Linux) and 3.14.7 (macOS, where the results were produced) |
 | Schema and validation | Pydantic v2 |
 | Image handling | Pillow |
 | HTTP (OpenAI-compatible backends) | httpx |
 | Anthropic backend | `anthropic` SDK (imported lazily) |
 | Model runtime used for the results | Claude Code CLI 2.1.281 running Claude Sonnet 5.5, Opus 5.5, Haiku 5.5, Haiku 4.5 |
-| Tests | pytest: 76 tests, no network, no keys needed |
+| Tests | pytest: 93 tests, no network, no keys needed |
 | Diagrams | Mermaid, rendered with `@mermaid-js/mermaid-cli` |
 | Built with | Claude Code (the full prompt log is in [prompts.md](prompts.md)) |
 
@@ -137,7 +149,10 @@ price) through the `claude-code` backend. Full details: [docs/TESTED_ON.md](docs
 
 ## Limitations
 
-- Labels were produced by a Claude model reading the images, not by an independent human, so agreement may be inflated.
+- Labels were produced by a Claude model reading the images. The repository owner audited a **random sample** of them and
+  found no errors (the sample size was not recorded); the rest were not individually reviewed by a human, so agreement may
+  still be somewhat inflated.
+- The date rule (day/month/year) is a fixed assumption that matches all 45 Malaysian samples and is untested elsewhere.
 - Four fixes were made after reading the first results on the same 45 receipts, so the v2 numbers are optimistic; v1
   (the clean baseline) is kept in [eval/metrics_v1_frozen.json](eval/metrics_v1_frozen.json).
 - The shipped configuration made no errors, so how well it would *catch* one is unmeasured.
@@ -147,9 +162,9 @@ price) through the `claude-code` backend. Full details: [docs/TESTED_ON.md](docs
 
 ```
 receipt_agent/        the package: pipeline, providers, validation, scoring, guardrails, evaluation
-tests/                76 tests (mock model, fake HTTP server, hand-computed metric checks)
+tests/                93 tests (mock model, fake HTTP server, hand-computed metric checks)
 eval/                 hand labels, stress generator, REPORT.md, metrics_v1_frozen.json, metrics_v2.json
-docs/                 ARCHITECTURE, DECISIONS, GUARDRAILS, METRICS, TESTED_ON, diagram sources and images
+docs/                 ARCHITECTURE, DATA_FORMAT, DECISIONS, GUARDRAILS, METRICS, TESTED_ON, diagram sources and images
 results/results.csv   the shipped output (Sonnet 5.5, two passes)
 prompts.md            the AI-assisted build log: prompts, decisions, dead ends, bugs
 NOTES.md              one-page summary of approach and tradeoffs

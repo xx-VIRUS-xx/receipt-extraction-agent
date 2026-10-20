@@ -15,8 +15,12 @@ There was no label file, so I hand-labelled all 45 receipts by reading each imag
 - One cropped receipt (`X51005447844.jpg`) has `items_uncertain` and its item list is not scored.
 - Every label was checked by code: each receipt's items reconcile to its printed total, subtotal or tax.
 
-**Limits.** The labeller is a Claude model, the same family as the systems being scored, so agreement may be inflated. A
-human has not audited the labels. All receipts are Malaysian GST receipts.
+**Audit status.** The repository owner reviewed a **random sample** of the labels and found no errors. The sample size was
+not recorded, and the remaining labels were not individually reviewed by a human.
+
+**Limits.** The labeller is a Claude model, the same family as the systems being scored, so agreement may be inflated even
+after the sample audit. All receipts are Malaysian GST receipts. Label dates are ISO `YYYY-MM-DD`, produced with the
+day/month/year rule in [DATA_FORMAT.md](DATA_FORMAT.md).
 
 ## Per-row correctness
 
@@ -25,7 +29,7 @@ A row is **correct** when all of these match the label:
 | Field | Rule |
 |---|---|
 | vendor | normalised fuzzy match >= 0.8 against the label or its alternates, or one name contained in the other (min. 5 characters) |
-| date | exact ISO date (or an accepted alternate) |
+| date | exact ISO date (or an accepted alternate), read with the day/month/year rule |
 | total | within 0.005 of the label or an accepted alternate |
 | line items | sum of priced items within 0.05 of the label's sum (unpriced lines add nothing) |
 

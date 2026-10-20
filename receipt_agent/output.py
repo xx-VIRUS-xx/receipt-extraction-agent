@@ -8,7 +8,7 @@ from .guardrails import sanitize_cell
 from .pipeline import RowResult
 from .validate import FAIL, PASS, SKIP
 
-COLUMNS = ["file", "status", "confidence", "review_reasons", "vendor", "date", "currency", "subtotal", "tax",
+COLUMNS = ["file", "status", "confidence", "review_reasons", "vendor", "date", "date_raw", "currency", "subtotal", "tax",
            "other_charges", "total", "prices_include_tax", "line_item_count", "line_items", "checks_failed",
            "checks_skipped", "pass_agreement", "image_quality", "models", "cost_usd", "latency_s"]
 
@@ -22,7 +22,7 @@ def _row(r: RowResult) -> dict:
     if not e:
         return base
     base.update({
-        "vendor": e.vendor, "date": e.date, "currency": e.currency, "subtotal": e.subtotal, "tax": e.tax,
+        "vendor": e.vendor, "date": e.date, "date_raw": e.date_raw, "currency": e.currency, "subtotal": e.subtotal, "tax": e.tax,
         "other_charges": e.other_charges, "total": e.total, "prices_include_tax": e.prices_include_tax,
         "line_item_count": len(e.line_items),
         "line_items": "; ".join(f"{i.description} = {i.amount}" for i in e.line_items),
@@ -32,7 +32,7 @@ def _row(r: RowResult) -> dict:
     return base
 
 
-TEXT_COLUMNS = {"file", "review_reasons", "vendor", "line_items", "checks_failed", "checks_skipped", "models", "currency"}
+TEXT_COLUMNS = {"file", "review_reasons", "vendor", "date_raw", "line_items", "checks_failed", "checks_skipped", "models", "currency"}
 
 
 def _clean(row: dict) -> dict:

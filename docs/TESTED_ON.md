@@ -24,7 +24,7 @@ metadata the model CLI recorded for each call.
 | `claude-code` backend, four models | live calls through `claude -p` | **451 unique model calls**, **$24.77** at list price, about 3.0 hours of summed call time (about 1 hour wall-clock with 6 parallel workers) |
 | Models | Claude Sonnet 5.5, Opus 5.5, Haiku 5.5, Haiku 4.5 | all four, single-pass, two-pass and mixed (10 configurations) |
 | Data | 45 real receipts + 7 synthetic stress images | scored against hand labels |
-| Unit and integration tests | `pytest`, mock model + fake HTTP server | 76 tests, no network, no keys |
+| Unit and integration tests | `pytest`, mock model + fake HTTP server | 93 tests, no network, no keys |
 
 Costs are the list-price `total_cost_usd` that `claude -p` reports per call. They describe this backend, not API
 billing, and they depend on how your Claude Code plan accounts for usage.
@@ -58,10 +58,11 @@ before trusting one. Smaller models behaved much worse in my runs (Haiku 4.5: 80
 ### 3. Everything outside the sample data
 - **One country, one tax regime.** All 45 receipts are Malaysian (RM, 6% GST). Other currencies, languages, VAT
   receipts, multi-page invoices and handwritten receipts are untested.
-- **Date format.** The prompt assumes day/month/year for numeric dates. That is right for these receipts and unverified
-  elsewhere.
+- **Date format.** Numeric dates are read day/month/year and written ISO `YYYY-MM-DD`. That is right for these receipts
+  (22 of 38 numeric dates can only be day-first) and unverified elsewhere; month-first locales are unsupported. See
+  [DATA_FORMAT.md](DATA_FORMAT.md).
 - **Operating systems and Python versions.** The model runs and results were produced on macOS with Python 3.14.7. The test
-  suite (76 tests, mocks only, no model calls) also passes on **Linux with Python 3.11, 3.12 and 3.13** in GitHub Actions
+  suite (mocks only, no model calls) also passes on **Linux with Python 3.11, 3.12 and 3.13** in GitHub Actions
   (`.github/workflows/tests.yml`, first run 2026-10-20). That verifies the code and the mock-backed tests on those versions;
   it does **not** mean the live model results were reproduced there. Windows is untested.
 - **Scale.** Largest run was 45 receipts with 6 workers. Rate-limit behaviour at higher concurrency is unknown.
