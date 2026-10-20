@@ -1,0 +1,25 @@
+flowchart TD
+  START(["Receipt image"]) --> IG{"Input OK?<br/>type, size, pixels"}
+  IG -- no --> E1["ERROR row<br/>reason recorded"]
+  IG -- yes --> PRE["Preprocess<br/>rotate, resize"]
+  PRE --> PA["Pass A<br/>extract"]
+  PRE --> PB["Pass B<br/>transcribe, then extract"]
+  PA --> RD{"Readable?"}
+  PB --> RD
+  RD -- no --> UN["UNREADABLE<br/>no values, confidence 0"]
+  RD -- yes --> VAL["Validate in code<br/>PASS, FAIL or SKIP"]
+  VAL --> PR{"Check failed or<br/>passes disagree?"}
+  PR -- yes --> RR["Re-read disputed fields<br/>once, then re-validate"]
+  PR -- no --> PICK["Choose final candidate"]
+  RR --> PICK
+  PICK --> GR{"Guardrails tripped?<br/>injection or ungrounded total"}
+  GR -- yes --> CAP["Force REVIEW<br/>cap confidence at 0.40"]
+  GR -- no --> SCORE["Score confidence<br/>agreement, validation, model"]
+  CAP --> SCORE
+  SCORE --> ST{"Confidence 0.85 or more<br/>and no failed check?"}
+  ST -- yes --> OK["OK"]
+  ST -- no --> RV["REVIEW<br/>with plain-English reasons"]
+  E1 --> CSV["results.csv<br/>rows needing a human first"]
+  UN --> CSV
+  OK --> CSV
+  RV --> CSV

@@ -1,0 +1,12 @@
+.venv/
+out/
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
+
+# Not redistributed: the exercise brief, the receipt images, and images derived from them.
+S4.pdf
+images/*
+!images/README.md
+eval/stress/*.jpg

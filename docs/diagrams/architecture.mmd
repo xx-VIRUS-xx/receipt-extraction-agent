@@ -1,0 +1,32 @@
+flowchart LR
+  IMG["Receipt images<br/>jpg, png, webp"] --> CLI["CLI<br/>python -m receipt_agent"]
+  CLI --> G1["Input guardrails<br/>type, size, pixel cap,<br/>duplicate detection"]
+  GD["Spend cap and<br/>circuit breaker"] -.-> G1
+  G1 --> PRE["Preprocess<br/>EXIF rotate, resize"]
+  PRE --> EX["Extraction passes<br/>Pass A, Pass B,<br/>one targeted re-read"]
+
+  EX <--> CACHE[("On-disk answer cache")]
+  EX --> PI["Provider interface<br/>VisionProvider.extract()"]
+  PI --> CC["claude-code<br/>claude -p session"]
+  PI --> AN["anthropic API"]
+  PI --> OA["OpenAI-compatible<br/>Ollama, SGLang,<br/>vLLM, LM Studio"]
+
+  EX --> VAL["Deterministic validation<br/>arithmetic, date, currency"]
+  EX --> AGR["Cross-pass agreement"]
+  EX --> G2["Output guardrails<br/>injection, grounded total"]
+  VAL --> SCO["Confidence scoring<br/>and hard caps"]
+  AGR --> SCO
+  G2 --> SCO
+  SCO --> OUT["Output writer<br/>CSV formula sanitising"]
+  OUT --> RES["results.csv<br/>results.json"]
+
+  classDef io fill:#eef2f7,stroke:#64748b,color:#0f172a
+  classDef guard fill:#fee2e2,stroke:#b91c1c,color:#450a0a
+  classDef check fill:#dbeafe,stroke:#1d4ed8,color:#172554
+  classDef model fill:#dcfce7,stroke:#15803d,color:#052e16
+  classDef store fill:#fef9c3,stroke:#a16207,color:#422006
+  class IMG,CLI,RES,PRE,OUT io
+  class G1,G2,GD guard
+  class VAL,AGR,SCO check
+  class EX,PI,CC,AN,OA model
+  class CACHE store

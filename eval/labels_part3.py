@@ -1,0 +1,13 @@
+from labels_part2 import lab, L
+lab("X51005337867.jpg","OLDTOWN WHITE COFFEE","2018-03-22",30.25,[13.87,12.07],tax=1.71,subtotal=25.94,incl=False,alts=[30.24],vendor_alts=["OLD TOWN KOPITIAM SDN BHD"],note="10% service charge 2.59; rounding 0.01; 'Guest Check' not a receipt")
+lab("X51005337877.jpg","UROKO JAPANESE CUISINE SDN BHD","2018-03-20",53.00,[24.00,1.00,15.00,6.00],tax=3.00,subtotal=46.00,incl=False,note="service charge 4.00; handwritten text at top")
+lab("X51005361906.jpg","TEO HENG STATIONERY & BOOKS","2018-01-27",27.35,[3.80,13.00,5.20,3.80],tax=1.55,subtotal=25.80,incl=False,note="small receipt on large scanned page with stamp over header")
+lab("X51005361908.jpg","TEO HENG STATIONERY & BOOKS","2018-03-15",127.20,[120.00],tax=7.20,subtotal=120.00,incl=False,note="small receipt on large halftone scan")
+lab("X51005361912.jpg","TEO HENG STATIONERY & BOOKS","2018-01-29",1.05,[1.00],tax=0.06,subtotal=1.00,incl=False,alts=[1.06],note="rounding -0.01")
+lab("X51005361923.jpg","SWC ENTERPRISE SDN BHD","2018-01-02",4.20,[4.20],tax=0.24,incl=True,note="small receipt on large page with other receipt fragments")
+lab("X51005365187.jpg","F&P PHARMACY","2018-03-02",31.90,[6.00,6.00,4.30,3.80,6.50,5.30],tax=1.22,subtotal=30.68,incl=True,note="printed 'Total Sales (Excluding GST)' 30.68 is tax-EXCLUSIVE while line items are tax-inclusive")
+lab("X51005433518.jpg","UNIHAKKA INTERNATIONAL SDN BHD","2018-03-07",8.20,[7.10,1.10],tax=0.46,incl=True,vendor_alts=["BAR WANG RICE"],note="amounts printed with '$' (ambiguous symbol); MYR from Johor Bahru address and GST")
+lab("X51005433543.jpg","UNIHAKKA INTERNATIONAL SDN BHD","2018-03-13",8.20,[7.10,1.10],tax=0.46,incl=True,vendor_alts=["BAR WANG RICE"],note="amounts printed with '$' (ambiguous symbol)")
+lab("X51005433548.jpg","PASAR MINI JIN SENG","2018-03-03",33.80,[16.00,2.40,1.80,6.80,6.80],tax=0.77,subtotal=33.80,incl=True)
+lab("X51005433556.jpg","YHM AEON TEBRAU CITY","2018-03-11",49.70,[1.50,12.80,31.60,3.80,0.00],tax=2.80,subtotal=49.70,incl=True,note="vendor name is the printed header only; low-uncertainty on exact name. 'TOTAL:MYR' printed")
+lab("X51005442322.jpg","TONY ROMA'S","2018-03-03",269.40,[67.67,67.67,67.67,9.35,9.35,9.35],tax=15.25,subtotal=231.06,incl=False,vendor_alts=["GRAND COMPANIONS SDN BHD"],note="10% service charge 23.10; items+svc+gst = 269.41 vs printed 269.40")

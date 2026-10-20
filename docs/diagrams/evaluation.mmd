@@ -1,0 +1,13 @@
+flowchart LR
+  IMGS["45 real receipts<br/>not redistributed"] --> LAB["Hand labels<br/>eval/labels.json"]
+  IMGS --> CFG["10 configurations<br/>4 models single pass,<br/>4 two-pass, 2 mixed"]
+  CFG --> EV["evaluate.py<br/>score every row vs label"]
+  LAB --> EV
+  EV --> M1["metrics_v1_frozen.json<br/>before any fix"]
+  EV --> M2["metrics_v2.json<br/>after 4 evidence-based fixes"]
+  STR["7 synthetic stress cases<br/>blur, blank, injection, rotated,<br/>cropped, covered, formula"] --> RS["run_stress.py<br/>4 configurations"]
+  RS --> SR["stress_results.json"]
+  M1 --> REP["REPORT.md<br/>generated tables"]
+  M2 --> REP
+  SR --> REP
+  REP --> DEC["DECISIONS.md<br/>question, answer, evidence, caveat"]

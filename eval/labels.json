@@ -1,0 +1,938 @@
+{
+ "X00016469671.jpg": {
+  "vendor": "OJC MARKETING SDN BHD",
+  "vendor_alts": [],
+  "date": "2019-01-02",
+  "total": 170.0,
+  "total_alts": [],
+  "items": [
+   170.0
+  ],
+  "tax": null,
+  "subtotal": null,
+  "prices_include_tax": null,
+  "currency": "MYR",
+  "legible": true,
+  "note": "no currency symbol printed; MYR from Johor address",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005230605.jpg": {
+  "vendor": "PETRON BKT LANJAN SB",
+  "vendor_alts": [],
+  "date": "2018-02-01",
+  "total": 4.9,
+  "total_alts": [],
+  "items": [
+   3.0,
+   1.9
+  ],
+  "tax": 0.28,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005442388.jpg": {
+  "vendor": "CONTENTO",
+  "vendor_alts": [],
+  "date": "2018-03-20",
+  "total": 21.6,
+  "total_alts": [],
+  "items": [
+   11.8,
+   4.9,
+   1.0,
+   3.9
+  ],
+  "tax": null,
+  "subtotal": null,
+  "prices_include_tax": null,
+  "currency": "MYR",
+  "legible": true,
+  "note": "handwritten annotations on receipt",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005230616.jpg": {
+  "vendor": "GERBANG ALAF RESTAURANTS SDN BHD",
+  "vendor_alts": [
+   "MCDONALD'S"
+  ],
+  "date": "2018-01-18",
+  "total": 38.9,
+  "total_alts": [],
+  "items": [
+   25.4,
+   12.5,
+   1.0
+  ],
+  "tax": 2.2,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005230621.jpg": {
+  "vendor": "SIN LIANHAP SDN BHD",
+  "vendor_alts": [],
+  "date": "2018-02-05",
+  "total": 7.3,
+  "total_alts": [],
+  "items": [
+   2.0,
+   5.3
+  ],
+  "tax": 0.41,
+  "subtotal": 7.3,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005230648.jpg": {
+  "vendor": "CROSS CHANNEL NETWORK SDN. BHD.",
+  "vendor_alts": [],
+  "date": "2018-01-29",
+  "total": 6.35,
+  "total_alts": [
+   6.36
+  ],
+  "items": [
+   6.36
+  ],
+  "tax": 0.36,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "rounding -0.01; payable 6.35",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005230657.jpg": {
+  "vendor": "CROSS CHANNEL NETWORK SDN. BHD.",
+  "vendor_alts": [],
+  "date": "2017-12-31",
+  "total": 7.95,
+  "total_alts": [],
+  "items": [
+   1.8,
+   1.91,
+   3.71,
+   0.53
+  ],
+  "tax": 0.45,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005230659.jpg": {
+  "vendor": "SWC ENTERPRISE SDN BHD",
+  "vendor_alts": [],
+  "date": "2018-01-08",
+  "total": 8.0,
+  "total_alts": [],
+  "items": [
+   8.0
+  ],
+  "tax": 0.45,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005200931.jpg": {
+  "vendor": "PERNIAGAAN ZHENG HUI",
+  "vendor_alts": [],
+  "date": "2018-02-09",
+  "total": 436.2,
+  "total_alts": [],
+  "items": [
+   17.5,
+   114.0,
+   55.0,
+   99.0,
+   86.0,
+   40.0
+  ],
+  "tax": 24.69,
+  "subtotal": 411.5,
+  "prices_include_tax": false,
+  "currency": "MYR",
+  "legible": true,
+  "note": "customer GOGIANT ENGINEERING is NOT the vendor; rounding 0.01. NOTE: model output was seen before labelling this one",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005268275.jpg": {
+  "vendor": "LIGHTROOM GALLERY SDN BHD",
+  "vendor_alts": [],
+  "date": "2017-11-20",
+  "total": 278.8,
+  "total_alts": [],
+  "items": [
+   90.57,
+   155.66,
+   16.79
+  ],
+  "tax": 15.78,
+  "subtotal": 263.02,
+  "prices_include_tax": false,
+  "currency": "MYR",
+  "legible": true,
+  "note": "CREDIT NOTE; the two files are the same image (duplicate)",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005301666.jpg": {
+  "vendor": "LIGHTROOM GALLERY SDN BHD",
+  "vendor_alts": [],
+  "date": "2017-11-20",
+  "total": 278.8,
+  "total_alts": [],
+  "items": [
+   90.57,
+   155.66,
+   16.79
+  ],
+  "tax": 15.78,
+  "subtotal": 263.02,
+  "prices_include_tax": false,
+  "currency": "MYR",
+  "legible": true,
+  "note": "CREDIT NOTE; the two files are the same image (duplicate)",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005268408.jpg": {
+  "vendor": "99 SPEED MART S/B",
+  "vendor_alts": [],
+  "date": "2017-11-20",
+  "total": 169.8,
+  "total_alts": [
+   169.78
+  ],
+  "items": [
+   117.9,
+   34.9,
+   4.1,
+   5.89,
+   6.99
+  ],
+  "tax": 9.61,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "rounding adj .02",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005288570.jpg": {
+  "vendor": "SECURE PARKING CORPORATION S/B",
+  "vendor_alts": [],
+  "date": "2018-03-23",
+  "total": 1.0,
+  "total_alts": [],
+  "items": [
+   0.94
+  ],
+  "tax": 0.06,
+  "subtotal": null,
+  "prices_include_tax": false,
+  "currency": "MYR",
+  "legible": true,
+  "note": "parking fee 0.94 + GST 0.06",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005337867.jpg": {
+  "vendor": "OLDTOWN WHITE COFFEE",
+  "vendor_alts": [
+   "OLD TOWN KOPITIAM SDN BHD"
+  ],
+  "date": "2018-03-22",
+  "total": 30.25,
+  "total_alts": [
+   30.24
+  ],
+  "items": [
+   13.87,
+   12.07
+  ],
+  "tax": 1.71,
+  "subtotal": 25.94,
+  "prices_include_tax": false,
+  "currency": "MYR",
+  "legible": true,
+  "note": "10% service charge 2.59; rounding 0.01; 'Guest Check' not a receipt",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005337877.jpg": {
+  "vendor": "UROKO JAPANESE CUISINE SDN BHD",
+  "vendor_alts": [],
+  "date": "2018-03-20",
+  "total": 53.0,
+  "total_alts": [],
+  "items": [
+   24.0,
+   1.0,
+   15.0,
+   6.0
+  ],
+  "tax": 3.0,
+  "subtotal": 46.0,
+  "prices_include_tax": false,
+  "currency": "MYR",
+  "legible": true,
+  "note": "service charge 4.00; handwritten text at top",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005361906.jpg": {
+  "vendor": "TEO HENG STATIONERY & BOOKS",
+  "vendor_alts": [],
+  "date": "2018-01-27",
+  "total": 27.35,
+  "total_alts": [],
+  "items": [
+   3.8,
+   13.0,
+   5.2,
+   3.8
+  ],
+  "tax": 1.55,
+  "subtotal": 25.8,
+  "prices_include_tax": false,
+  "currency": "MYR",
+  "legible": true,
+  "note": "small receipt on large scanned page with stamp over header",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005361908.jpg": {
+  "vendor": "TEO HENG STATIONERY & BOOKS",
+  "vendor_alts": [],
+  "date": "2018-03-15",
+  "total": 127.2,
+  "total_alts": [],
+  "items": [
+   120.0
+  ],
+  "tax": 7.2,
+  "subtotal": 120.0,
+  "prices_include_tax": false,
+  "currency": "MYR",
+  "legible": true,
+  "note": "small receipt on large halftone scan",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005361912.jpg": {
+  "vendor": "TEO HENG STATIONERY & BOOKS",
+  "vendor_alts": [],
+  "date": "2018-01-29",
+  "total": 1.05,
+  "total_alts": [
+   1.06
+  ],
+  "items": [
+   1.0
+  ],
+  "tax": 0.06,
+  "subtotal": 1.0,
+  "prices_include_tax": false,
+  "currency": "MYR",
+  "legible": true,
+  "note": "rounding -0.01",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005361923.jpg": {
+  "vendor": "SWC ENTERPRISE SDN BHD",
+  "vendor_alts": [],
+  "date": "2018-01-02",
+  "total": 4.2,
+  "total_alts": [],
+  "items": [
+   4.2
+  ],
+  "tax": 0.24,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "small receipt on large page with other receipt fragments",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005365187.jpg": {
+  "vendor": "F&P PHARMACY",
+  "vendor_alts": [],
+  "date": "2018-03-02",
+  "total": 31.9,
+  "total_alts": [],
+  "items": [
+   6.0,
+   6.0,
+   4.3,
+   3.8,
+   6.5,
+   5.3
+  ],
+  "tax": 1.22,
+  "subtotal": 30.68,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "printed 'Total Sales (Excluding GST)' 30.68 is tax-EXCLUSIVE while line items are tax-inclusive",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005433518.jpg": {
+  "vendor": "UNIHAKKA INTERNATIONAL SDN BHD",
+  "vendor_alts": [
+   "BAR WANG RICE"
+  ],
+  "date": "2018-03-07",
+  "total": 8.2,
+  "total_alts": [],
+  "items": [
+   7.1,
+   1.1
+  ],
+  "tax": 0.46,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "amounts printed with '$' (ambiguous symbol); MYR from Johor Bahru address and GST",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005433543.jpg": {
+  "vendor": "UNIHAKKA INTERNATIONAL SDN BHD",
+  "vendor_alts": [
+   "BAR WANG RICE"
+  ],
+  "date": "2018-03-13",
+  "total": 8.2,
+  "total_alts": [],
+  "items": [
+   7.1,
+   1.1
+  ],
+  "tax": 0.46,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "amounts printed with '$' (ambiguous symbol)",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005433548.jpg": {
+  "vendor": "PASAR MINI JIN SENG",
+  "vendor_alts": [],
+  "date": "2018-03-03",
+  "total": 33.8,
+  "total_alts": [],
+  "items": [
+   16.0,
+   2.4,
+   1.8,
+   6.8,
+   6.8
+  ],
+  "tax": 0.77,
+  "subtotal": 33.8,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005433556.jpg": {
+  "vendor": "YHM AEON TEBRAU CITY",
+  "vendor_alts": [],
+  "date": "2018-03-11",
+  "total": 49.7,
+  "total_alts": [],
+  "items": [
+   1.5,
+   12.8,
+   31.6,
+   3.8,
+   0.0
+  ],
+  "tax": 2.8,
+  "subtotal": 49.7,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "vendor name is the printed header only; low-uncertainty on exact name. 'TOTAL:MYR' printed",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005442322.jpg": {
+  "vendor": "TONY ROMA'S",
+  "vendor_alts": [
+   "GRAND COMPANIONS SDN BHD"
+  ],
+  "date": "2018-03-03",
+  "total": 269.4,
+  "total_alts": [],
+  "items": [
+   67.67,
+   67.67,
+   67.67,
+   9.35,
+   9.35,
+   9.35
+  ],
+  "tax": 15.25,
+  "subtotal": 231.06,
+  "prices_include_tax": false,
+  "currency": "MYR",
+  "legible": true,
+  "note": "10% service charge 23.10; items+svc+gst = 269.41 vs printed 269.40",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005442334.jpg": {
+  "vendor": "UNIHAKKA INTERNATIONAL SDN BHD",
+  "vendor_alts": [
+   "BAR WANG RICE"
+  ],
+  "date": "2018-03-26",
+  "total": 8.2,
+  "total_alts": [],
+  "items": [
+   7.1,
+   1.1
+  ],
+  "tax": 0.46,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "amounts printed with '$' (ambiguous symbol)",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005442343.jpg": {
+  "vendor": "YONG TAT HARDWARE TRADING",
+  "vendor_alts": [],
+  "date": "2018-03-13",
+  "total": 72.0,
+  "total_alts": [],
+  "items": [
+   72.0
+  ],
+  "tax": 4.08,
+  "subtotal": 67.92,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "printed 'Total Sales (Excluding GST)' 67.92 is tax-exclusive; item amount 72.00 is tax-inclusive",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005442366.jpg": {
+  "vendor": "TRIPLE SIX POINT ENTERPRISE 666",
+  "vendor_alts": [],
+  "date": "2018-03-22",
+  "total": 22.6,
+  "total_alts": [],
+  "items": [
+   10.0,
+   6.5,
+   4.2,
+   1.9
+  ],
+  "tax": null,
+  "subtotal": null,
+  "prices_include_tax": null,
+  "currency": "MYR",
+  "legible": true,
+  "note": "Apollo cake listed 6.80 less 0.30 disc = 6.50 in the TOTAL column; the separate 'Discount 0.30' row is already reflected in item totals",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005442375.jpg": {
+  "vendor": "UNIHAKKA INTERNATIONAL SDN BHD",
+  "vendor_alts": [
+   "BAR WANG RICE"
+  ],
+  "date": "2018-03-25",
+  "total": 8.5,
+  "total_alts": [],
+  "items": [
+   5.5,
+   3.0
+  ],
+  "tax": 0.48,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "amounts printed with '$' (ambiguous symbol)",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005442382.jpg": {
+  "vendor": "UNIHAKKA INTERNATIONAL SDN BHD",
+  "vendor_alts": [
+   "BAR WANG RICE"
+  ],
+  "date": "2018-03-20",
+  "total": 6.6,
+  "total_alts": [],
+  "items": [
+   6.6
+  ],
+  "tax": 0.37,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "amounts printed with '$' (ambiguous symbol)",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005444040.jpg": {
+  "vendor": "BENS INDEPENDENT GROCER SDN. BHD.",
+  "vendor_alts": [
+   "B.I.G.",
+   "BENS INDEPENDENT GROCER"
+  ],
+  "date": "2018-03-09",
+  "total": 133.7,
+  "total_alts": [],
+  "items": [
+   107.0,
+   26.7
+  ],
+  "tax": 6.06,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005444041.jpg": {
+  "vendor": "BENS INDEPENDENT GROCER SDN. BHD.",
+  "vendor_alts": [
+   "B.I.G.",
+   "BENS INDEPENDENT GROCER"
+  ],
+  "date": "2018-03-08",
+  "total": 81.0,
+  "total_alts": [],
+  "items": [
+   23.7,
+   19.9,
+   26.7,
+   5.8,
+   4.9
+  ],
+  "tax": 1.74,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005444044.jpg": {
+  "vendor": "99 SPEED MART S/B",
+  "vendor_alts": [],
+  "date": "2018-03-10",
+  "total": 5.35,
+  "total_alts": [],
+  "items": [
+   5.35
+  ],
+  "tax": 0.3,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005444046.jpg": {
+  "vendor": "STAR GROCER SDN BHD",
+  "vendor_alts": [],
+  "date": "2018-03-25",
+  "total": 66.15,
+  "total_alts": [
+   66.17
+  ],
+  "items": [
+   12.72,
+   1.48,
+   2.59,
+   17.2,
+   1.08,
+   7.5,
+   23.6
+  ],
+  "tax": 0.0,
+  "subtotal": null,
+  "prices_include_tax": null,
+  "currency": "MYR",
+  "legible": true,
+  "note": "rounding -0.02; all items zero-rated",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005447841.jpg": {
+  "vendor": "PASARAYA BORONG PINTAR SDN BHD",
+  "vendor_alts": [],
+  "date": "2018-03-09",
+  "total": 10.4,
+  "total_alts": [],
+  "items": [
+   1.2,
+   1.9,
+   2.7,
+   4.6
+  ],
+  "tax": 0.0,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005447842.jpg": {
+  "vendor": "PASARAYA BORONG PINTAR SDN BHD",
+  "vendor_alts": [],
+  "date": "2018-03-14",
+  "total": 0.9,
+  "total_alts": [],
+  "items": [
+   0.9
+  ],
+  "tax": 0.0,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005447844.jpg": {
+  "vendor": "RESTAURANT JIAWEI",
+  "vendor_alts": [
+   "JIAWEI HOUSE"
+  ],
+  "date": "2018-02-23",
+  "total": 110.0,
+  "total_alts": [],
+  "items": [
+   42.0,
+   20.0,
+   18.0,
+   16.0,
+   5.0,
+   6.0,
+   3.0
+  ],
+  "tax": null,
+  "subtotal": 110.0,
+  "prices_include_tax": null,
+  "currency": "MYR",
+  "legible": true,
+  "note": "right edge of receipt is cropped so some amounts are cut off; the Rice (B) line total is inferred as 6.00 from subtotal 110.00. Treat item-level label as uncertain.",
+  "items_uncertain": true,
+  "date_alts": []
+ },
+ "X51005447851.jpg": {
+  "vendor": "PASARAYA BORONG PINTAR SDN BHD",
+  "vendor_alts": [],
+  "date": "2018-01-30",
+  "total": 1.7,
+  "total_alts": [],
+  "items": [
+   1.7
+  ],
+  "tax": 0.0,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005447859.jpg": {
+  "vendor": "PASARAYA BORONG PINTAR SDN BHD",
+  "vendor_alts": [],
+  "date": "2018-02-14",
+  "total": 1.45,
+  "total_alts": [],
+  "items": [
+   1.45
+  ],
+  "tax": 0.0,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005568855.jpg": {
+  "vendor": "POPULAR BOOK CO. (M) SDN BHD",
+  "vendor_alts": [],
+  "date": "2017-12-23",
+  "total": 140.65,
+  "total_alts": [],
+  "items": [
+   4.29,
+   31.99,
+   1.35,
+   3.78,
+   3.78,
+   6.9,
+   14.0,
+   5.0,
+   2.99,
+   8.41,
+   29.6,
+   28.56
+  ],
+  "tax": 4.18,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "12 priced items; 9 member/promo discount lines. Labelled as NET amounts (price minus its discount). Gross items + separate negative discount lines is an equally valid representation: they sum to the same 140.65, so item correctness is judged by SUM, not by exact list. Very tall receipt, 936x3521.",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005568866.jpg": {
+  "vendor": "POPULAR BOOK CO. (M) SDN BHD",
+  "vendor_alts": [],
+  "date": "2017-08-20",
+  "total": 5.05,
+  "total_alts": [
+   5.04
+  ],
+  "items": [
+   5.04
+  ],
+  "tax": 0.29,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "5.60 item less 0.56 member discount = 5.04; rounding 0.01 -> 5.05. Gross+negative-discount representation also sums to 5.04.",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005568885.jpg": {
+  "vendor": "EVERGREEN LIGHT SDN BHD",
+  "vendor_alts": [],
+  "date": "2017-07-10",
+  "total": 56.0,
+  "total_alts": [
+   56.01
+  ],
+  "items": [
+   52.84
+  ],
+  "tax": 3.17,
+  "subtotal": 52.84,
+  "prices_include_tax": false,
+  "currency": "MYR",
+  "legible": true,
+  "note": "dot-matrix print; rounding -0.01; 4 x 13.21 = 52.84",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005568887.jpg": {
+  "vendor": "HON HWA HARDWARE TRADING",
+  "vendor_alts": [],
+  "date": "2017-04-28",
+  "total": 7.2,
+  "total_alts": [],
+  "items": [
+   7.2
+  ],
+  "tax": 0.41,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "day digit printed 28 or 26, low-res: either accepted",
+  "items_uncertain": false,
+  "date_alts": [
+   "2017-04-26"
+  ]
+ },
+ "X51005568889.jpg": {
+  "vendor": "HON HWA HARDWARE TRADING",
+  "vendor_alts": [],
+  "date": "2017-02-11",
+  "total": 19.6,
+  "total_alts": [],
+  "items": [
+   19.6
+  ],
+  "tax": 1.11,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "qty 3.38 x 5.80",
+  "items_uncertain": false,
+  "date_alts": []
+ },
+ "X51005568890.jpg": {
+  "vendor": "HON HWA HARDWARE TRADING",
+  "vendor_alts": [],
+  "date": "2017-01-05",
+  "total": 5.0,
+  "total_alts": [],
+  "items": [
+   5.0
+  ],
+  "tax": 0.28,
+  "subtotal": null,
+  "prices_include_tax": true,
+  "currency": "MYR",
+  "legible": true,
+  "note": "",
+  "items_uncertain": false,
+  "date_alts": []
+ }
+}
