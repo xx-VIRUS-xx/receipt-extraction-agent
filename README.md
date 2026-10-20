@@ -1,5 +1,7 @@
 # Receipt extraction agent that knows when it might be wrong
 
+[![tests](https://github.com/xx-VIRUS-xx/receipt-extraction-agent/actions/workflows/tests.yml/badge.svg)](https://github.com/xx-VIRUS-xx/receipt-extraction-agent/actions/workflows/tests.yml)
+
 Extracts vendor, date, line items, subtotal, tax, total and currency from receipt images, **checks its own output with
 plain code**, scores confidence per row, and writes a CSV a human can open, sort, and review only where needed.
 
@@ -110,7 +112,7 @@ Decisions, evidence and residual risks: [docs/GUARDRAILS.md](docs/GUARDRAILS.md)
 
 | Layer | Choice |
 |---|---|
-| Language | Python (verified on 3.14.7 only; a CI workflow for 3.11 to 3.13 is provided in `docs/ci/tests.yml` but not enabled yet) |
+| Language | Python: all 76 tests pass on 3.11, 3.12, 3.13 (GitHub Actions, Linux) and 3.14.7 (macOS, where the results were produced) |
 | Schema and validation | Pydantic v2 |
 | Image handling | Pillow |
 | HTTP (OpenAI-compatible backends) | httpx |

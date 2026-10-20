@@ -60,10 +60,10 @@ before trusting one. Smaller models behaved much worse in my runs (Haiku 4.5: 80
   receipts, multi-page invoices and handwritten receipts are untested.
 - **Date format.** The prompt assumes day/month/year for numeric dates. That is right for these receipts and unverified
   elsewhere.
-- **Operating systems and Python versions.** Verified locally on macOS with Python 3.14.7 **only**. A GitHub Actions workflow for
-  Linux with Python 3.11, 3.12 and 3.13 is provided as `docs/ci/tests.yml`, but it is **not enabled**: the token used to
-  publish this repository lacked GitHub's `workflow` scope, so it could not be pushed under `.github/workflows/`. To enable
-  it, copy it there. Until it has run, support for those Python versions is unverified.
+- **Operating systems and Python versions.** The model runs and results were produced on macOS with Python 3.14.7. The test
+  suite (76 tests, mocks only, no model calls) also passes on **Linux with Python 3.11, 3.12 and 3.13** in GitHub Actions
+  (`.github/workflows/tests.yml`, first run 2026-10-20). That verifies the code and the mock-backed tests on those versions;
+  it does **not** mean the live model results were reproduced there. Windows is untested.
 - **Scale.** Largest run was 45 receipts with 6 workers. Rate-limit behaviour at higher concurrency is unknown.
 - **Stability across reruns.** Model answers are cached, so a rerun replays the same answers by construction. Run-to-run
   variability of the live models was not measured.
