@@ -11,6 +11,9 @@ class ProviderError(RuntimeError):
 
 class VisionProvider(Protocol):
     spec: str  # "backend:model", used for cache keys and reporting
+    # True if extract() reports real per-call cost in _meta.cost_usd. --max-cost is refused for backends that don't,
+    # because a cap that always reads $0 would silently never trip.
+    reports_cost: bool
 
     def extract(self, image: bytes, media_type: str, system: str, user: str, schema: dict) -> dict:
         """Return the model's structured answer as a dict. Raise ProviderError on failure."""
@@ -30,3 +33,10 @@ def parse_json_loose(text: str) -> dict:
             return json.loads(text[start : end + 1])
         except json.JSONDecodeError as exc:
             raise ProviderError(f"invalid JSON in model reply: {exc}") from exc
+
+
+def unpriced(providers, max_cost: float | None) -> list[str]:
+    """Specs of providers that cannot be held to a spend cap (empty when no cap is set)."""
+    if max_cost is None:
+        return []
+    return list(dict.fromkeys(p.spec for p in providers if p is not None and not getattr(p, "reports_cost", True)))

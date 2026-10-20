@@ -11,7 +11,7 @@ plain code**, scores confidence per row, and writes a CSV a human can open, sort
 
 ## Results at a glance
 
-45 real receipts, 10 model configurations, scored against hand labels (details and caveats below).
+45 real receipts, 10 model configurations, scored against labels drafted by Claude and sample-audited by me (caveats below).
 
 | Configuration | Rows fully correct | OK / flagged | Wrong rows marked OK | Cost per receipt | Time per receipt |
 |---|---|---|---|---|---|
@@ -26,12 +26,13 @@ plain code**, scores confidence per row, and writes a CSV a human can open, sort
 Stress tests (illegible, blank, cropped, covered total, prompt injection, rotated): **28 of 28 passed**.
 
 **Three honest findings, because they matter more than the headline:**
-1. **Model choice dominates.** Haiku 4.5 gets 82% right; Sonnet and Opus get 100%.
-2. **A second pass by the same model repeats its own mistake.** Both Haiku passes misread a year as 2016 (printed 2018), agreed,
-   and the row shipped as OK at 0.97 confidence. Using a *different* model for the second pass flagged it.
+1. **A second pass by the same model repeats its own mistake.** Both Haiku passes misread a year as 2016 (printed 2018), agreed,
+   and the row shipped as OK at 0.97 confidence. Using a *different* model for the second pass flagged it. This is the
+   strongest evidence for the confidence design, because it is where the scoring logic met a real error.
+2. **Model choice dominates.** Haiku 4.5 gets 82% right; Sonnet and Opus get 100%.
 3. **For a strong model, the second pass adds no measured accuracy** (single-pass Sonnet is also 45/45 at 44% of the cost).
    It buys a trustworthy OK/REVIEW signal, but with zero errors in 45 receipts its error-catching is unproven here, and the
-   true error rate can still be as high as about 6% (95% bound).
+   true error rate can still be as high as about 6.4% (one-sided 95% bound).
 
 Everything is traced to a table: [eval/REPORT.md](eval/REPORT.md) and [docs/DECISIONS.md](docs/DECISIONS.md).
 
@@ -59,8 +60,8 @@ mkdir -p images   # put your receipt images here (.jpg .jpeg .png .webp); none a
 Pick one backend:
 
 ```bash
-# A) Claude Code installed and logged in: no API key needed (this is what the results above used)
-.venv/bin/python -m receipt_agent --provider claude-code:claude-sonnet-5-5
+# A) Claude Code installed and logged in: no API key needed. This is the default and what the results above used
+.venv/bin/python -m receipt_agent            # same as --provider claude-code:claude-sonnet-5-5
 
 # B) Anthropic API (not exercised live in this repo's tests, see "What was not tested")
 export ANTHROPIC_API_KEY=sk-ant-...
@@ -73,7 +74,8 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 Output: `out/results.csv` (rows needing a human first, then lowest confidence first) and `out/results.json` (every check).
 Useful flags: `--provider-b backend:model` (a different model for the second pass), `--single-pass`, `--no-reread`,
-`--max-cost 5` (stop starting new receipts after $5 of new spend), `--workers N`, `--limit N`, `--no-cache`.
+`--max-cost 5` (stop starting new receipts after $5 of new spend; `claude-code` backend only, refused elsewhere because
+those backends do not report a price), `--workers N`, `--limit N`, `--no-cache`.
 A sample of the shipped output is in [results/results.csv](results/results.csv).
 
 ### Supported backends
@@ -90,8 +92,11 @@ Any OpenAI-compatible server works. Mixing is allowed, for example Claude for Pa
 
 ## Reading the CSV
 
-`status` is `OK`, `REVIEW`, `UNREADABLE`, `ERROR` or `SKIPPED`. `review_reasons` says why a row needs a look
-(for example `items_vs_total: items sum 0.94 + tax 0.06 + other None vs total 1.0`). `checks_failed` and `checks_skipped`
+Filter on **`needs_review`** (`yes`/`no`); the file is already sorted with `yes` rows first, lowest confidence first.
+`status` is `OK`, `REVIEW`, `UNREADABLE`, `ERROR` or `SKIPPED`. `review_reasons` is filled only on rows that need a look
+and says why (for example `items_vs_total: items sum 0.94 + tax 0.06 + other None vs total 1.0`). On OK rows,
+informational messages such as a minor pass disagreement go to `notes` instead. A flagged row can still have high
+confidence (a correctly read duplicate file), which is why `needs_review`, not `confidence`, is the column to act on. `checks_failed` and `checks_skipped`
 name the checks. `confidence` is a heuristic blend, **not** a probability: see [docs/METRICS.md](docs/METRICS.md).
 
 ## Data formats (dates, amounts, currency)
@@ -112,10 +117,10 @@ Full specification, evidence and limits: [docs/DATA_FORMAT.md](docs/DATA_FORMAT.
 |---|---|
 | Corrupt, huge or non-image files | type, size and pixel limits before any paid call |
 | Prompt injection printed on a receipt | document treated as data; two detectors; a hit forces REVIEW; read-only model session |
-| Invented numbers | the total must appear in the independent transcription |
+| Invented numbers | the total must appear in a transcription, from a different pass when one exists |
 | Guessing when unreadable or hidden | null is allowed; no total means low confidence; unreadable means no values |
 | Spreadsheet formula injection in the CSV | cells starting with `= + - @` are neutralised |
-| Runaway spend or a dead backend | spend cap on new money only; circuit breaker; skipped rows stay visible |
+| Runaway spend or a dead backend | spend cap on new money only (refused on backends with no price); circuit breaker; skipped rows stay visible |
 | Same receipt twice | byte-identical duplicates flagged |
 
 Decisions, evidence and residual risks: [docs/GUARDRAILS.md](docs/GUARDRAILS.md).
@@ -130,7 +135,7 @@ Decisions, evidence and residual risks: [docs/GUARDRAILS.md](docs/GUARDRAILS.md)
 | HTTP (OpenAI-compatible backends) | httpx |
 | Anthropic backend | `anthropic` SDK (imported lazily) |
 | Model runtime used for the results | Claude Code CLI 2.1.281 running Claude Sonnet 5.5, Opus 5.5, Haiku 5.5, Haiku 4.5 |
-| Tests | pytest: 93 tests, no network, no keys needed |
+| Tests | pytest: 102 tests, no network, no keys needed |
 | Diagrams | Mermaid, rendered with `@mermaid-js/mermaid-cli` |
 | Built with | Claude Code (the full prompt log is in [prompts.md](prompts.md)) |
 
@@ -149,7 +154,7 @@ price) through the `claude-code` backend. Full details: [docs/TESTED_ON.md](docs
 
 ## Limitations
 
-- Labels were produced by a Claude model reading the images. The repository owner audited a **random sample** of them and
+- Labels were drafted by a Claude model reading the images. I audited a **random sample** of them against the images and
   found no errors (the sample size was not recorded); the rest were not individually reviewed by a human, so agreement may
   still be somewhat inflated.
 - The date rule (day/month/year) is a fixed assumption that matches all 45 Malaysian samples and is untested elsewhere.
@@ -162,8 +167,8 @@ price) through the `claude-code` backend. Full details: [docs/TESTED_ON.md](docs
 
 ```
 receipt_agent/        the package: pipeline, providers, validation, scoring, guardrails, evaluation
-tests/                93 tests (mock model, fake HTTP server, hand-computed metric checks)
-eval/                 hand labels, stress generator, REPORT.md, metrics_v1_frozen.json, metrics_v2.json
+tests/                102 tests (mock model, fake HTTP server, hand-computed metric checks)
+eval/                 labels, stress generator, REPORT.md, metrics_v1_frozen.json, metrics_v2.json
 docs/                 ARCHITECTURE, DATA_FORMAT, DECISIONS, GUARDRAILS, METRICS, TESTED_ON, diagram sources and images
 results/results.csv   the shipped output (Sonnet 5.5, two passes)
 prompts.md            the AI-assisted build log: prompts, decisions, dead ends, bugs

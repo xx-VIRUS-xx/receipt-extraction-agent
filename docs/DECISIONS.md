@@ -5,10 +5,10 @@ pre-fix baseline in `eval/metrics_v1_frozen.json`). Section numbers (§) refer t
 it. "Assumed" means I decided it without testing and you should not treat it as evidence.
 
 **Read this first: what the data can and cannot show.**
-- 45 real receipts, all Malaysian GST receipts (RM, 6%), judged against labels I produced by reading the images.
-  I am a Claude model, the same family as the systems being scored, so agreement may be inflated. The labels are
-  arithmetically self-consistent (checked in code), and the repository owner audited a random sample (size not recorded)
-  and found no errors. The rest were not individually reviewed by a human.
+- 45 real receipts, all Malaysian GST receipts (RM, 6%), judged against labels drafted by a Claude model reading
+  the images, the same family as the systems being scored, so agreement may be inflated. The labels are arithmetically
+  self-consistent (checked in code), and I audited a random sample against the images (size not recorded) and found no
+  errors. The rest were not individually reviewed by a human.
 - 0 wrong rows out of 45 does **not** mean 0% error. The 95% upper bound on the true error rate is about **6.4%**.
 - The 4 fixes between v1 and v2 were made after seeing errors on these same receipts. v1 is the honest out-of-the-box
   number; v2 is optimistic (§0).
@@ -119,7 +119,7 @@ Stress set: 7 synthetic cases made from one real receipt, run on 4 configuration
 6. **Same-model second passes agree on the same mistake** (Q4). That is a design limit, not a bug I could fix with code.
 
 ### Q10. What is NOT proven, and what would I do next?
-- Labels were produced by a Claude model: have a human check ~10 rows (start with the 3 hardest: Jiawei cropped,
+- Labels were drafted by a Claude model and only sample-audited: have a second person check ~10 rows (start with the 3 hardest: Jiawei cropped,
   Popular with 21 line items, Hon Hwa low-res date).
 - Single-country data: other currencies, languages, multi-page invoices, and handwritten receipts are untested. The prompt
   handles any language, but I have no accuracy number. The `$` receipts (5 of them, all Malaysian) were read as MYR by
@@ -154,7 +154,26 @@ choosing a different model for Pass B, not by agent orchestration.
 | Confidence = heuristic blend with caps | learned model | AUROC in §2 | measured, not tuned |
 | Image quality weight 0 | quality-weighted | spread 0.78-1.00 | measured (dead end) |
 | Accept either tax reading in arithmetic | trust the model's `prices_include_tax` flag | Secure Parking receipt | measured, post-hoc fix |
+| `needs_review` column + `notes` for OK rows | sort by confidence only | duplicate flag at 0.985 sank when re-sorted | measured on shipped CSV |
 | Numeric dates read day/month/year, ISO output, enforced by `date_matches_raw` | trust the model's conversion; make it a setting | 443 extractions: 442 exact, 1 correct abstention, 0 contradictions; 22 of 38 sample dates can only be day-first | measured on Malaysian data; untested elsewhere |
 | Missing currency forces review | infer from country | Haiku: 6 receipts affected | assumed; Sonnet makes it moot |
 | Pass B transcript grounds the total | none | fired on 1 real wrong total | measured (n=1) |
 | CSV first, no review UI | small web UI | scope | assumed |
+
+### Fixes after code review (not re-run live)
+
+Found by reading the code against its own claims; each has a regression test in `tests/test_review_fixes.py`.
+
+1. **Malformed replies were cached.** The raw reply was cached before schema validation, so one bad answer was replayed
+   on every later run. Now only validated replies are cached; unusable ones still count toward spend.
+2. **`--max-cost` silently did nothing on the Anthropic and OpenAI-compatible backends**, which report cost 0. It is
+   now refused there with a clear error instead of pretending to cap spend. Those backends now record latency.
+3. **Grounding could pass on a coincidence.** A total of 1.00 was "found" in `Qty 1`. Bare integers now count only on
+   receipts that print no decimal amounts. When Pass B's own answer is chosen, the row notes it was checked against its
+   own transcript.
+4. **CSV usability.** Added `needs_review` (yes/no) and moved informational messages on OK rows to `notes`, so a
+   non-empty `review_reasons` always means "act". `results/results.csv` was reformatted to the new columns from the same
+   run; it was not re-extracted.
+5. **Default backend** is now `claude-code`, the only one exercised live, instead of the untested Anthropic API.
+
+The grounding change (3) can only make more rows `REVIEW`, never fewer. It was not re-run against the 45 receipts.

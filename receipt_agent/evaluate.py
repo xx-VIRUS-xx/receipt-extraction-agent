@@ -1,4 +1,4 @@
-"""Evaluate pipeline configurations against hand labels (eval/labels.json).
+"""Evaluate pipeline configurations against labels (eval/labels.json).
 
 Everything a reviewer might ask ("which model, is the second pass worth it, can I trust OK rows, what does
 it cost") is answered from the numbers this produces. Labels were read from the images by a Claude model, not an
@@ -18,7 +18,7 @@ from .cache import Cache
 from .guardrails import Guard
 from .output import write_outputs
 from .pipeline import Config, RowResult, run_folder
-from .providers import make_provider
+from .providers import ProviderError, make_provider, unpriced
 
 MODELS = ["claude-haiku-4-5", "claude-haiku-5-5", "claude-sonnet-5-5", "claude-opus-5-5"]
 
@@ -174,6 +174,8 @@ def run_config(name: str, spec: dict, images: Path, labels: dict, out_root: Path
                max_cost: float | None) -> dict:
     a = make_provider(spec["a"])
     b = make_provider(spec["b"]) if spec.get("b") else None
+    if bad := unpriced([a, b], max_cost):
+        raise ProviderError(f"--max-cost needs per-call prices, which {', '.join(bad)} does not report")
     cfg = Config(provider_a=a, provider_b=b, reread=spec.get("reread", True), cache=cache,
                  guard=Guard(max_cost, 8))
     results = run_folder(images, cfg, workers=workers)

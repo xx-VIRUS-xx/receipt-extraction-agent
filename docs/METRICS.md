@@ -5,7 +5,7 @@ from `eval/metrics_v2.json` (after fixes) and `eval/metrics_v1_frozen.json` (bef
 
 ## Ground truth
 
-There was no label file, so I hand-labelled all 45 receipts by reading each image (`eval/labels.json`, built by
+There was no label file, so all 45 receipts were labelled by reading each image (drafted with Claude) (`eval/labels.json`, built by
 `eval/labels_part*.py`). Rules, fixed before any model ran:
 
 - Labelled **before** model output was seen. One exception is recorded in that label's own note (`X51005200931.jpg`).
@@ -15,7 +15,7 @@ There was no label file, so I hand-labelled all 45 receipts by reading each imag
 - One cropped receipt (`X51005447844.jpg`) has `items_uncertain` and its item list is not scored.
 - Every label was checked by code: each receipt's items reconcile to its printed total, subtotal or tax.
 
-**Audit status.** The repository owner reviewed a **random sample** of the labels and found no errors. The sample size was
+**Audit status.** I reviewed a **random sample** of the labels and found no errors. The sample size was
 not recorded, and the remaining labels were not individually reviewed by a human.
 
 **Limits.** The labeller is a Claude model, the same family as the systems being scored, so agreement may be inflated even

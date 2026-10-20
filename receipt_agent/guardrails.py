@@ -75,16 +75,22 @@ def injection_flags(e: Extraction) -> list[str]:
 
 # ---------- grounding (hallucination guard) ----------
 
-def _forms(amount: float) -> set[str]:
+_DECIMAL_AMOUNT = re.compile(r"\d\.\d{2}(?!\d)")
+
+
+def _forms(amount: float, allow_bare_integer: bool) -> set[str]:
     forms = {f"{amount:.2f}", f"{amount:.1f}"}
-    if float(amount).is_integer():
+    if allow_bare_integer and float(amount).is_integer():
         forms.add(str(int(amount)))
     return forms
 
 
 def amount_in_text(amount: float, text: str) -> bool:
+    """True if `amount` is printed in `text`. A bare integer ("5") only counts on documents that print no decimal
+    amounts at all (e.g. yen): otherwise a total of 1.00 would be "grounded" by any "Qty 1" on the receipt."""
     t = text.replace(",", "")
-    return any(re.search(rf"(?<![\d.]){re.escape(f)}(?!\d)", t) for f in _forms(abs(amount)))
+    bare_ok = not _DECIMAL_AMOUNT.search(t)
+    return any(re.search(rf"(?<![\d.]){re.escape(f)}(?!\d)", t) for f in _forms(abs(amount), bare_ok))
 
 
 def grounding_flags(e: Extraction, transcript: str | None) -> list[str]:

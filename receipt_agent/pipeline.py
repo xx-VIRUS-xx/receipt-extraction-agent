@@ -66,14 +66,22 @@ def run_pass(provider: VisionProvider, label: str, img: Prepared, user: str, cfg
     try:
         if raw is None:
             raw = provider.extract(img.jpeg, img.media_type, prompts.SYSTEM, user, json_schema())
-            cfg.cache.put(key, raw)
-        raw = dict(raw)
-        meta = raw.pop("_meta", {}) or {}
-        cost = meta.get("cost_usd", 0.0)
-        return Candidate(label, Extraction.model_validate(raw), cost_usd=cost, spend_usd=0.0 if cache_hit else cost,
+    except ProviderError as exc:
+        return Candidate(label, error=f"ProviderError: {str(exc)[:200]}")
+    data = dict(raw)
+    meta = data.pop("_meta", {}) or {}
+    cost = meta.get("cost_usd", 0.0)
+    spend = 0.0 if cache_hit else cost
+    try:
+        extraction = Extraction.model_validate(data)
+    except ValidationError as exc:
+        # Not cached: a malformed reply must be retried on the next run, not replayed forever.
+        # Still counted as spend: the call was paid for even though its answer is unusable.
+        return Candidate(label, error=f"ValidationError: {str(exc)[:200]}", cost_usd=cost, spend_usd=spend,
                          ms=meta.get("ms", 0))
-    except (ProviderError, ValidationError) as exc:
-        return Candidate(label, error=f"{type(exc).__name__}: {str(exc)[:200]}")
+    if not cache_hit:
+        cfg.cache.put(key, raw)  # only replies that passed schema validation are cached
+    return Candidate(label, extraction, cost_usd=cost, spend_usd=spend, ms=meta.get("ms", 0))
 
 
 def _unreadable(cands: list[Candidate]) -> bool:
@@ -150,7 +158,13 @@ def process_image(path: Path, cfg: Config) -> RowResult:
     if final.label == "C":
         s.reasons.append("value chosen after a targeted re-read")
     # --- guardrails that act on the final answer ---
-    transcript = next((c.extraction.transcript for c in good if c.extraction.transcript), None)
+    # Ground against a transcription from a DIFFERENT pass when one exists. Only Pass B transcribes, so when Pass B's
+    # own answer is chosen the check falls back to its own transcript: weaker, and the reason text says so.
+    other_t = next((c.extraction.transcript for c in good if c is not final and c.extraction.transcript), None)
+    own_t = final.extraction.transcript
+    transcript = other_t or own_t
+    if transcript and not other_t:
+        s.reasons.append("total grounded against the same pass's own transcription (weaker check)")
     inj = [f for c in good for f in injection_flags(c.extraction)]
     grd = grounding_flags(final.extraction, transcript)
     for msg in dict.fromkeys(inj + grd):

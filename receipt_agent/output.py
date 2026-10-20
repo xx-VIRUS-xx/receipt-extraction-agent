@@ -8,15 +8,21 @@ from .guardrails import sanitize_cell
 from .pipeline import RowResult
 from .validate import FAIL, PASS, SKIP
 
-COLUMNS = ["file", "status", "confidence", "review_reasons", "vendor", "date", "date_raw", "currency", "subtotal", "tax",
+COLUMNS = ["file", "needs_review", "status", "confidence", "review_reasons", "notes", "vendor", "date", "date_raw", "currency", "subtotal", "tax",
            "other_charges", "total", "prices_include_tax", "line_item_count", "line_items", "checks_failed",
            "checks_skipped", "pass_agreement", "image_quality", "models", "cost_usd", "latency_s"]
 
 
 def _row(r: RowResult) -> dict:
     e = r.extraction
-    base = {"file": r.file, "status": r.status, "confidence": r.confidence,
-            "review_reasons": " | ".join(r.reasons), "image_quality": r.quality, "models": r.models,
+    # needs_review is the column to filter on. confidence is a heuristic and a row can be flagged at high confidence
+    # (a byte-identical duplicate is read correctly but may be double-counted). On OK rows the same messages are
+    # informational, so they go to `notes` and review_reasons stays empty: a non-empty review_reasons means act.
+    flagged = r.status != "OK"
+    reasons = " | ".join(r.reasons)
+    base = {"file": r.file, "needs_review": "yes" if flagged else "no", "status": r.status,
+            "confidence": r.confidence, "review_reasons": reasons if flagged else "",
+            "notes": "" if flagged else reasons, "image_quality": r.quality, "models": r.models,
             "pass_agreement": "" if r.agreement is None else round(r.agreement, 3),
             "cost_usd": round(r.cost_usd, 4), "latency_s": round(r.latency_ms / 1000, 1)}
     if not e:
@@ -32,7 +38,7 @@ def _row(r: RowResult) -> dict:
     return base
 
 
-TEXT_COLUMNS = {"file", "review_reasons", "vendor", "date_raw", "line_items", "checks_failed", "checks_skipped", "models", "currency"}
+TEXT_COLUMNS = {"file", "review_reasons", "notes", "vendor", "date_raw", "line_items", "checks_failed", "checks_skipped", "models", "currency"}
 
 
 def _clean(row: dict) -> dict:

@@ -21,6 +21,8 @@ DEFAULT_BASE_URLS = {
 
 
 class OpenAICompatProvider:
+    reports_cost = False  # local servers have no price; hosted ones return tokens only
+
     def __init__(self, backend: str, model: str, base_url: str | None = None, api_key: str | None = None):
         self.backend = backend
         self.model = model
@@ -46,6 +48,7 @@ class OpenAICompatProvider:
         raise AssertionError("unreachable")
 
     def extract(self, image: bytes, media_type: str, system: str, user: str, schema: dict) -> dict:
+        t0 = time.perf_counter()
         data_url = f"data:{media_type};base64,{base64.b64encode(image).decode()}"
 
         def body(user_text: str, response_format: dict | None) -> dict:
@@ -79,4 +82,4 @@ class OpenAICompatProvider:
             content = resp.json()["choices"][0]["message"]["content"]
         except (KeyError, IndexError, ValueError) as exc:
             raise ProviderError(f"unexpected reply shape from {self.spec}: {resp.text[:300]}") from exc
-        return parse_json_loose(content)
+        return {**parse_json_loose(content), "_meta": {"cost_usd": 0.0, "ms": int((time.perf_counter() - t0) * 1000)}}

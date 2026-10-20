@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .base import ProviderError, VisionProvider
+from .base import ProviderError, VisionProvider, unpriced
 from .openai_compat import DEFAULT_BASE_URLS, OpenAICompatProvider
 
 

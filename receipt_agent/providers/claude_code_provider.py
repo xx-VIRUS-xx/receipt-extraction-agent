@@ -20,6 +20,8 @@ EXT = {"image/jpeg": "jpg", "image/png": "png", "image/webp": "webp"}
 
 
 class ClaudeCodeProvider:
+    reports_cost = True  # `claude -p` returns total_cost_usd per call
+
     def __init__(self, model: str, claude_bin: str | None = None, timeout: int = 300):
         self.binary = claude_bin or os.environ.get("CLAUDE_BIN") or shutil.which("claude")
         if not self.binary:

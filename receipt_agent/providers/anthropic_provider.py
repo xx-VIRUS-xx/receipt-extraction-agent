@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import base64
 import os
+import time
 
 from .base import ProviderError
 
@@ -9,6 +10,8 @@ TOOL_NAME = "record_receipt"
 
 
 class AnthropicProvider:
+    reports_cost = False  # the API returns token counts, not a price; see providers/base.unpriced
+
     def __init__(self, model: str, api_key: str | None = None):
         import anthropic  # imported lazily so the OpenAI-compatible path needs no Anthropic install
 
@@ -21,6 +24,7 @@ class AnthropicProvider:
         self.spec = f"anthropic:{model}"
 
     def extract(self, image: bytes, media_type: str, system: str, user: str, schema: dict) -> dict:
+        t0 = time.perf_counter()
         try:
             resp = self.client.messages.create(
                 model=self.model,
@@ -41,8 +45,8 @@ class AnthropicProvider:
             raise ProviderError(f"anthropic API error: {exc}") from exc
         for block in resp.content:
             if block.type == "tool_use":
-                # Token counts only: this backend has no per-call price from the API, so cost stays 0 here.
-                return {**dict(block.input), "_meta": {"cost_usd": 0.0, "ms": 0,
+                # Token counts only: the API gives no per-call price, so cost stays 0 (and --max-cost is refused).
+                return {**dict(block.input), "_meta": {"cost_usd": 0.0, "ms": int((time.perf_counter() - t0) * 1000),
                                                        "in_tokens": resp.usage.input_tokens,
                                                        "out_tokens": resp.usage.output_tokens}}
         raise ProviderError("anthropic reply had no tool_use block")

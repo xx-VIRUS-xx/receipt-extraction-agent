@@ -5,7 +5,7 @@ What the agent outputs, what it assumes about the receipts it reads, and how eac
 ## Dates
 
 **Output format: ISO 8601 calendar date, `YYYY-MM-DD`** (for example `2018-02-01`). This is what the `date` column of
-`results.csv`, the `date` field of `results.json`, and the `date` field of the hand labels (`eval/labels.json`) contain.
+`results.csv`, the `date` field of `results.json`, and the `date` field of the labels (`eval/labels.json`) contain.
 The time of day is not kept. The date exactly as printed on the receipt is kept alongside it as **`date_raw`** (CSV and
 JSON), so a reviewer can see what the receipt said next to what the agent concluded:
 

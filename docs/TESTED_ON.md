@@ -23,8 +23,8 @@ metadata the model CLI recorded for each call.
 |---|---|---|
 | `claude-code` backend, four models | live calls through `claude -p` | **451 unique model calls**, **$24.77** at list price, about 3.0 hours of summed call time (about 1 hour wall-clock with 6 parallel workers) |
 | Models | Claude Sonnet 5.5, Opus 5.5, Haiku 5.5, Haiku 4.5 | all four, single-pass, two-pass and mixed (10 configurations) |
-| Data | 45 real receipts + 7 synthetic stress images | scored against hand labels |
-| Unit and integration tests | `pytest`, mock model + fake HTTP server | 93 tests, no network, no keys |
+| Data | 45 real receipts + 7 synthetic stress images | scored against labels (Claude-drafted, sample-audited) |
+| Unit and integration tests | `pytest`, mock model + fake HTTP server | 102 tests, no network, no keys |
 
 Costs are the list-price `total_cost_usd` that `claude -p` reports per call. They describe this backend, not API
 billing, and they depend on how your Claude Code plan accounts for usage.
